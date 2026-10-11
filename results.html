@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>build.create cars – Help Near You</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container { max-width: 600px; margin: 0 auto; }
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .back {
+      color: #38bdf8;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 1.6rem; margin-bottom: 20px; color: #38bdf8; }
+    .problem-box {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 25px;
+    }
+    .problem-box img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin: 30px 0 12px;
+      color: #94a3b8;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    .btn {
+      display: block;
+      padding: 16px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+    }
+    .btn:hover { border-color: #38bdf8; }
+    .btn.primary {
+      background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+      color: white;
+      border: none;
+    }
+    .map-container {
+      height: 350px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 10px;
+      border: 1px solid #334155;
+    }
+    iframe { width: 100%; height: 100%; border: 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">build.create cars</div>
+    <a href="index.html" class="back">← Back</a>
+    <h1>Help Near You</h1>
+
+    <div class="problem-box">
+      <strong>Your problem:</strong>
+      <p id="show-problem" style="margin-top:8px;"></p>
+      <img id="show-photo" style="display:none;">
+    </div>
+
+    <h2>Quick Actions</h2>
+    <div class="btn-group">
+      <a id="link-mechanics" class="btn primary" target="_blank">🔧 Find Mechanics Near Me</a>
+      <a id="link-dealers" class="btn" target="_blank">🏢 Authorized Dealers Near Me</a>
+      <a id="link-towing" class="btn" target="_blank">🚛 Towing Services Near Me</a>
+    </div>
+
+    <h2>Map – Mechanics & Dealers Near You</h2>
+    <div class="map-container">
+      <iframe id="map" 
+        src="https://maps.google.com/maps?q=car+mechanic+near+me&output=embed"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+
+  <script>
+    const problem = sessionStorage.getItem('carProblem') || 'No problem described';
+    document.getElementById('show-problem').textContent = problem;
+
+    const photo = sessionStorage.getItem('carPhoto');
+    if (photo) {
+      const img = document.getElementById('show-photo');
+      img.src = photo;
+      img.style.display = 'block';
+    }
+
+    const query = encodeURIComponent(problem + ' car mechanic');
+    document.getElementById('link-mechanics').href = 
+      'https://www.google.com/maps/search/?api=1&query=' + query + '+near+me';
+
+    document.getElementById('link-dealers').href = 
+      'https://www.google.com/maps/search/?api=1&query=authorized+car+dealer+near+me';
+
+    document.getElementById('link-towing').href = 
+      'https://www.google.com/maps/search/?api=1&query=car+towing+service+near+me';
+
+    document.getElementById('map').src = 
+      'https://maps.google.com/maps?q=' + query + '+near+me&output=embed';
+  </script>
+</body>
+</html>

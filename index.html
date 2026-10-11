@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>build.create cars</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding-top: 40px;
+    }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      color: #38bdf8;
+    }
+    .subtitle {
+      color: #94a3b8;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: white;
+      font-size: 16px;
+      resize: none;
+      margin-bottom: 20px;
+    }
+    .photo-box {
+      border: 2px dashed #475569;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 25px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .photo-box:hover { border-color: #38bdf8; }
+    .photo-box img {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    input[type="file"] { display: none; }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:active { transform: scale(0.98); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">build.create cars</div>
+    <h1>Car Help Near Me</h1>
+    <p class="subtitle">Describe the problem and find mechanics, dealers & towing near you</p>
+
+    <label>What is the problem with your car?</label>
+    <textarea id="problem" placeholder="Example: Engine making loud noise, battery dead, brake pads worn out, AC not cooling..."></textarea>
+
+    <label>Photo of the problem (optional)</label>
+    <div class="photo-box" onclick="document.getElementById('photo').click()">
+      <p id="photo-text">📷 Tap to take or upload photo</p>
+      <img id="preview" style="display:none;">
+    </div>
+    <input type="file" id="photo" accept="image/*" capture="environment">
+
+    <button onclick="goToResults()">Find Help Near Me →</button>
+  </div>
+
+  <script>
+    const photoInput = document.getElementById('photo');
+    const preview = document.getElementById('preview');
+    const photoText = document.getElementById('photo-text');
+
+    photoInput.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+          photoText.style.display = 'none';
+          sessionStorage.setItem('carPhoto', e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function goToResults() {
+      const problem = document.getElementById('problem').value.trim();
+      if (!problem) {
+        alert('Please describe the problem first');
+        return;
+      }
+      sessionStorage.setItem('carProblem', problem);
+      window.location.href = 'results.html';
+    }
+  </script>
+</body>
+</html>
